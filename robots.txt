@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Disallow: /404.html
+
+User-agent: Baiduspider
+Allow: /
+Disallow: /404.html
+
+User-agent: 360Spider
+Allow: /
+Disallow: /404.html
+
+User-agent: bingbot
+Allow: /
+Disallow: /404.html
+
+Sitemap: https://mirnews.github.io/sitemap.xml

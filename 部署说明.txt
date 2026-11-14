@@ -1,0 +1,68 @@
+热血传奇私服发布网（mirnews.github.io）部署说明
+================================================
+
+一、这套程序是什么
+1. 纯静态多栏目网站：无数据库、无后台、无 JavaScript 依赖，双击 index.html 即可本地浏览。
+2. 全部文件平铺在同一个根目录（与 index.html 同级），不上传子目录，GitHub Pages 可直接发布。
+3. 规模：1 个首页 + 5 个栏目页 + 100 篇文章页 + 关于页 + 网站地图页 + 404 页 = 109 个 HTML，另含 style.css、sitemap.xml、feed.xml、robots.txt。
+4. 每篇文章约 900–1000 字（正文纯文字统计），栏目分布：
+   开服表 kf.html（20 篇）、版本库 bb.html（20 篇）、玩法攻略 gl.html（20 篇）、
+   玩家心得 xd.html（20 篇）、传奇资讯 zx.html（20 篇）。
+
+二、文件名与路径规则（都很短）
+- 首页：index.html
+- 栏目页：kf.html / bb.html / gl.html / xd.html / zx.html
+- 文章页：栏目代号 + 序号，如 kf3.html、gl13.html、zx16.html（全部与首页同级）
+- 辅助页：about.html（关于与免责）、map.html（HTML 站点地图）、404.html
+- 站点资源：style.css、sitemap.xml、feed.xml、robots.txt
+
+三、图片：已按 126×126 放入根目录（可随时替换）
+1. 共 12 张 126×126 像素 JPG，已放在站点根目录（与 index.html 同级），文件名与版本入口一一对应：
+   img01.jpg  1.76复古      img02.jpg  1.85合击      img03.jpg  单职业
+   img04.jpg  冰雪版本      img05.jpg  打金传奇      img06.jpg  微变轻变
+   img07.jpg  中变版本      img08.jpg  三端互通      img09.jpg  迷失版本
+   img10.jpg  沉默版本      img11.jpg  英雄合击      img12.jpg  公益低消
+2. 页面引用位置：首页顶部 12 个版本入口图标、侧栏“版本推荐”、栏目页列表缩略图、文章页正文配图；
+   img01.jpg 同时作为浏览器标签页小图标（favicon）。
+3. 想换成自己的图，只要满足三条：文件名不变、尺寸 126×126、放在根目录，无需改任何代码。
+4. 若你的图片不是 126×126，直接覆盖也能显示（页面已固定按 126×126 排版），但建议缩放后再上传，加载更快。
+
+四、GitHub Pages 部署步骤
+1. 在 GitHub 新建仓库，仓库名用 mirnews（对应域名 mirnews.github.io）。
+2. 把本目录全部文件（含 index.html，不要放子目录）上传/推送到仓库的 main 分支根目录。
+   git init && git add . && git commit -m "site" && git branch -M main
+   git remote add origin https://github.com/你的用户名/mirnews.git && git push -u origin main
+3. 仓库 Settings → Pages → Source 选 “Deploy from a branch”，Branch 选 main / 根目录（/root），保存。
+4. 等待 1–2 分钟，访问 https://mirnews.github.io/ 验证首页、栏目页、文章页均可打开。
+5. 若用自定义域名，需在仓库根目录加 CNAME 文件，并把 canonical 里的域名批量替换。
+
+五、搜索引擎优化（已内置，需你做三步）
+1. 已内置的 SEO 要素：
+   - 每页独立 title / keywords / description / canonical / robots（含 max-image-preview:large）
+   - 结构化数据：首页 WebSite + SearchAction、栏目页 CollectionPage + ItemList、文章页 Article、全站 BreadcrumbList
+   - sitemap.xml（含 lastmod / changefreq / priority）、feed.xml（RSS）、robots.txt（分别针对 Baiduspider / 360Spider / bingbot 给出抓取建议）
+   - 扁平目录 + 短路径 + 全站内链（面包屑、上下篇、相关推荐、栏目互链、map.html 站点地图）
+2. 你需要做的三步：
+   a) 换校验码：在 index.html 的 <head> 里找到这三行，把“在此填写…”替换成站长平台给你的真实校验码：
+      <meta name="baidu-site-verification" content="...">
+      <meta name="360-site-verification" content="...">
+      <meta name="msvalidate.01" content="...">
+      百度搜索资源平台（ziyuan.baidu.com）、360 站长平台（zhanzhang.so.com）、必应 Webmaster（bing.com/webmasters）。
+   b) 提交站点地图：三个平台都提交 https://mirnews.github.io/sitemap.xml；百度可再用“普通收录/API 推送”提交首页与栏目页。
+   c) 主动推送：必应支持 IndexNow，可在改版后提交 URL 列表；百度用 API 推送（需在平台获取 token）。GitHub Pages 不能放动态脚本，推送用平台后台工具即可。
+3. 收录建议：上线后先提交首页与 5 个栏目页，再分批提交文章页；前两周不要大改路径与标题，避免收录波动。
+
+六、内容维护须知（重要）
+1. 首页“今日新开区开服表”中的服务器名、时间、线路是示例数据，用于展示布局。正式上线前请替换为真实、可核验的信息（或直接删掉该表，只保留栏目入口），避免误导读者。
+2. 本套程序不提供客户端下载、不设下载按钮、不参与任何服务器运营；文章内如涉及版本与开区信息，均为整理与经验分享。about.html 中已写明免责与版权提示。
+3. 若要新增文章：复制任一文章页改标题、正文、canonical，并按“栏目代号+序号”命名（如 kf21.html），同时在对应栏目页与 map.html、sitemap.xml、feed.xml 中补一条链接即可。
+4. 文章页里的“约 X 字”“阅读约 X 分钟”“编辑：传奇发布网编辑部”属于模板文案，可按需调整。
+
+七、合规提醒
+私服类内容涉及知识产权问题，站点仅做信息整理与经验分享。请勿在站内提供客户端、登录器、充值入口或任何推广导流链接；如收到权利方通知，应及时下架相关内容。维持“只做内容、不做分发”的边界，站点才能长期存在。
+
+八、常见问题
+- 打开是乱码？文件为 UTF-8，请用浏览器直接打开，不要用记事本另存。
+- 图片不显示？检查 12 张图是否在根目录且文件名大小写一致（img01.jpg 不是 IMG01.JPG）。
+- 404 页不生效？GitHub Pages 会自动使用根目录的 404.html，无需配置。
+- 想在本地预览？直接双击 index.html；或在该目录执行 python3 -m http.server 8000 后访问 http://localhost:8000/。
